@@ -3,12 +3,12 @@ var LinkedList = function() {
   list.head = null;
   list.tail = null;
 
-  list.addToTail = function(value) {
+  list.addToTail = function(value, key) {
     if (this.head === null && this.tail === null) {
-      this.head = Node(value);
+      this.head = Node(value, key);
       this.tail = this.head;
     } else {
-      this.tail.next = Node(value);
+      this.tail.next = Node(value, key);
       this.tail = this.tail.next;
     }
   };
@@ -26,10 +26,28 @@ var LinkedList = function() {
     }
   };
 
+  list.findNode = function(key) {
+    var node = this.head;
+    while (node !== null) {
+      if (node.key === key) { return node; }
+      node = node.next;
+    }
+    return false;
+  }
+
+  list.returnPreviousNode = function(key) {
+    var node = this.head;
+    while(node !== null) {
+      if (node.next.key === key) { return node; }
+      node = node.next;
+    }
+    return false;
+  }
+
   list.contains = function(target) {
     var node = this.head;
     while (node.value !== target) {
-      if (node.next === null) return false;
+      if (node.next === null) { return false; }
       node = node.next;
     }
     return true;
@@ -38,11 +56,15 @@ var LinkedList = function() {
   return list;
 };
 
-var Node = function(value) {
+var Node = function(value, key) {
   var node = {};
-
+  node.key = key;
   node.value = value;
   node.next = null;
+  
+  node.mutateValue = function(value) {
+    this.value = value;
+  }
 
   return node;
 };
