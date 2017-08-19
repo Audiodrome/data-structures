@@ -1,32 +1,56 @@
 var BinarySearchTree = function(value) {
   var tree = {};
-  tree.root = null;
+  tree.value = value;
+  tree.right = null;
+  tree.left = null;
 
-  tree.insert = function(key, value) {
-    if (this.root === null) {
-      this.root = Node();
+  tree.insert = function(value) {
+    var node = BinarySearchTree(value);
+    if (value < this.value) {
+      if (this.left === null) {
+        this.left = node;
+      } else {
+        this.left.insert(value)
+      }
     } else {
-
+      if (this.right === null) {
+        this.right = node;
+      } else {
+        this.right.insert(value);
+      }
     }
-
   };
   
-  tree.contains = function(key) {
+  tree.contains = function(value) {
+    if (value === this.value) {
+      return true;
+    } else if (value < this.value) {
+      if (this.left === null) { return false; }
+      return this.left.contains(value);
+    } else if (value > this.value) {
+      if (this.right === null) {return false; }
+      return this.right.contains(value);
+    }
   };
 
-  tree.depthFirstLog = function() {
+  tree.depthFirstLog = function(cb) {
+    var node = this;
+    var s = Stack();
+    
+    if (node === null) { return; }
+    s.push(node);
+
+    while (!s.isEmpty()) {
+      node = s.pop();
+      cb(node.value);
+      if (node.right !== null) { s.push(node.right); }
+      if (node.left !== null) { s.push(node.left); }
+    }
   };
+
+  return tree;
 };
 
-
-
-var TreeNode = function(key, value) {
-  var node = {};
-  node.key = key;
-  node.value = value;
-  node.right = null;
-  node.left = null;
-};
 /*
  * Complexity: What is the time complexity of the above functions?
  */
