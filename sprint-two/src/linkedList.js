@@ -35,9 +35,9 @@ var LinkedList = function() {
     return false;
   }
 
-  list.returnPreviousNode = function(key) {
+  list.previousNode = function(key) {
     var node = this.head;
-    while(node !== null) {
+    while(node.next !== null) {
       if (node.next.key === key) { return node; }
       node = node.next;
     }
@@ -61,11 +61,6 @@ var Node = function(value, key) {
   node.key = key;
   node.value = value;
   node.next = null;
-  
-  node.mutateValue = function(value) {
-    this.value = value;
-  }
-
   return node;
 };
 
